@@ -14,6 +14,7 @@ model.compile(optimizer='adam',
 	          loss='sparse_categorical_crossentropy', 
 	          metrics=['accuracy'])
 
-model.fit(x_train, y_train, epochs=5)
-result = model.evaluate(x_test, y_test)
-print(result)
+res_tr = model.fit(x_train, y_train, epochs=5)
+res_pr = model.evaluate(x_test, y_test)
+print("training result: ", res_tr)
+print("testing result: ", res_pr)
