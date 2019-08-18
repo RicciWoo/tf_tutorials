@@ -103,6 +103,8 @@ history = model.fit(
   epochs=EPOCHS, validation_split = 0.2, verbose=0,
   callbacks=[PrintDot()])
 
+print("\n")
+
 hist = pd.DataFrame(history.history)
 hist['epoch'] = history.epoch
 print(hist.tail())
