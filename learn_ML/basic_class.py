@@ -65,10 +65,14 @@ print('Test accuracy:', test_acc)
 
 # Make predictions
 predictions = model.predict(test_images)
+print("Let's take a look at the first prediction:")
 print(predictions[0])
 
-np.argmax(predictions[0])
-test_labels[0]
+print("We can see which label has the highest confidence value:")
+print(np.argmax(predictions[0]))
+
+print("We can check the test label to see this is correct:")
+print(test_labels[0])
 
 def plot_image(i, predictions_array, true_label, img):
   predictions_array, true_label, img = predictions_array[i], true_label[i], img[i]
@@ -135,7 +139,7 @@ img = test_images[0]
 print(img.shape)
 
 # Add the image to a batch where it's the only member.
-img = (np.expand_dims(img,0))
+img = (np.expand_dims(img, 0))
 print(img.shape)
 
 # Now predict the image
