@@ -30,7 +30,7 @@ dataset = raw_dataset.copy()
 print(dataset.tail())
 
 # Clean the data
-dataset.isna().sum()
+print(dataset.isna().sum())
 
 dataset = dataset.dropna()
 
@@ -39,7 +39,7 @@ origin = dataset.pop('Origin')
 dataset['USA'] = (origin == 1)*1.0
 dataset['Europe'] = (origin == 2)*1.0
 dataset['Japan'] = (origin == 3)*1.0
-dataset.tail()
+print(dataset.tail())
 
 # Split the data into train and test
 train_dataset = dataset.sample(frac=0.8,random_state=0)
@@ -105,7 +105,7 @@ history = model.fit(
 
 hist = pd.DataFrame(history.history)
 hist['epoch'] = history.epoch
-hist.tail()
+print(hist.tail())
 
 def plot_history(history):
   hist = pd.DataFrame(history.history)
@@ -143,6 +143,8 @@ history = model.fit(normed_train_data, train_labels, epochs=EPOCHS,
                     validation_split = 0.2, verbose=0, callbacks=[early_stop, PrintDot()])
 
 # plot_history(history)
+
+print("\n")
 
 loss, mae, mse = model.evaluate(normed_test_data, test_labels, verbose=0)
 print("Testing set Mean Abs Error: {:5.2f} MPG".format(mae))
