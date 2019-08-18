@@ -93,7 +93,7 @@ history = model.fit(partial_x_train,
 
 # Evaluate the model
 results = model.evaluate(test_data, test_labels)
-print(results)
+print("evaluation results:", results)
 
 # Create a graph of accuracy and loss over time
 history_dict = history.history
