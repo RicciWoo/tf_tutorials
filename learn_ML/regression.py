@@ -18,7 +18,7 @@ print(tf.__version__)
 # The Auto MPG dataset
 # Get the data
 dataset_path = keras.utils.get_file("auto-mpg.data", "http://archive.ics.uci.edu/ml/machine-learning-databases/auto-mpg/auto-mpg.data")
-print(dataset_path)
+print("dataset path", dataset_path)
 
 column_names = ['MPG','Cylinders','Displacement','Horsepower','Weight',
                 'Acceleration', 'Model Year', 'Origin']
@@ -27,7 +27,7 @@ raw_dataset = pd.read_csv(dataset_path, names=column_names,
                       sep=" ", skipinitialspace=True)
 
 dataset = raw_dataset.copy()
-dataset.tail()
+print(dataset.tail())
 
 # Clean the data
 dataset.isna().sum()
