@@ -160,7 +160,32 @@ print(occupation_result.numpy().shape)
 
 print(tf.argmax(occupation_result, axis=1).numpy())
 
+education = tf.feature_column.categorical_column_with_vocabulary_list(
+    'education', [
+        'Bachelors', 'HS-grad', '11th', 'Masters', '9th', 'Some-college',
+        'Assoc-acdm', 'Assoc-voc', '7th-8th', 'Doctorate', 'Prof-school',
+        '5th-6th', '10th', '1st-4th', 'Preschool', '12th'])
 
+marital_status = tf.feature_column.categorical_column_with_vocabulary_list(
+    'marital_status', [
+        'Married-civ-spouse', 'Divorced', 'Married-spouse-absent',
+        'Never-married', 'Separated', 'Married-AF-spouse', 'Widowed'])
 
+workclass = tf.feature_column.categorical_column_with_vocabulary_list(
+    'workclass', [
+        'Self-emp-not-inc', 'Private', 'State-gov', 'Federal-gov',
+        'Local-gov', '?', 'Self-emp-inc', 'Without-pay', 'Never-worked'])
+
+my_categorical_columns = [relationship, occupation, education, marital_status, workclass]
+
+# use both sets of columns to configure a model
+classifier = tf.estimator.LinearClassifier(feature_columns=my_numeric_columns+my_categorical_columns)
+classifier.train(train_inpf)
+result = classifier.evaluate(test_inpf)
+
+clear_output()
+
+for key,value in sorted(result.items()):
+  print('%s: %s' % (key, value))
 
 
