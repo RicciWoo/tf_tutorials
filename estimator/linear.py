@@ -259,11 +259,49 @@ clear_output()
 
 print(predict_df[['income_bracket','predicted_class', 'correct']])
 
+# Adding Regularization to Prevent Overfitting
+model_l1 = tf.estimator.LinearClassifier(
+    feature_columns=base_columns + crossed_columns,
+    optimizer=tf.train.FtrlOptimizer(
+        learning_rate=0.1,
+        l1_regularization_strength=10.0,
+        l2_regularization_strength=0.0))
 
+model_l1.train(train_inpf)
 
+results = model_l1.evaluate(test_inpf)
+clear_output()
+for key in sorted(results):
+  print('%s: %0.2f' % (key, results[key]))
 
+model_l2 = tf.estimator.LinearClassifier(
+    feature_columns=base_columns + crossed_columns,
+    optimizer=tf.train.FtrlOptimizer(
+        learning_rate=0.1,
+        l1_regularization_strength=0.0,
+        l2_regularization_strength=10.0))
 
+model_l2.train(train_inpf)
 
+results = model_l2.evaluate(test_inpf)
+clear_output()
+for key in sorted(results):
+  print('%s: %0.2f' % (key, results[key]))
+
+def get_flat_weights(model):
+  weight_names = [
+      name for name in model.get_variable_names()
+      if "linear_model" in name and "Ftrl" not in name]
+
+  weight_values = [model.get_variable_value(name) for name in weight_names]
+
+  weights_flat = np.concatenate([item.flatten() for item in weight_values], axis=0)
+
+  return weights_flat
+
+weights_flat = get_flat_weights(model)
+weights_flat_l1 = get_flat_weights(model_l1)
+weights_flat_l2 = get_flat_weights(model_l2)
 
 
 
