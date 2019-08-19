@@ -7,8 +7,8 @@ import tensorflow.feature_column as fc
 import os
 import sys
 
-# import matplotlib.pyplot as plt
-# from IPython.display import clear_output
+import matplotlib.pyplot as plt
+from IPython.display import clear_output
 
 # enable eager execution to inspect this program as we run it:
 tf.enable_eager_execution()
