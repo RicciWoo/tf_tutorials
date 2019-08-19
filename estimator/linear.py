@@ -141,6 +141,9 @@ clear_output()
 for key,value in sorted(result.items()):
   print('%s: %s' % (key, value))
 
+# Categorical columns
+
+
 
 
 
