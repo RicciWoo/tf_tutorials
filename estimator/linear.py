@@ -119,7 +119,15 @@ result = classifier.evaluate(test_inpf)
 clear_output()  # used for display in notebook
 print(result)
 
+# define a NumericColumn for each continuous feature column
+education_num = tf.feature_column.numeric_column('education_num')
+capital_gain = tf.feature_column.numeric_column('capital_gain')
+capital_loss = tf.feature_column.numeric_column('capital_loss')
+hours_per_week = tf.feature_column.numeric_column('hours_per_week')
 
+my_numeric_columns = [age,education_num, capital_gain, capital_loss, hours_per_week]
+
+fc.input_layer(feature_batch, my_numeric_columns).numpy()
 
 
 
