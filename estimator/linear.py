@@ -237,7 +237,27 @@ clear_output()
 for key, value in sorted(results.items()):
   print('%s: %0.2f' % (key, value))
 
+# look in more detail how the model preformed:
+import numpy as np
 
+predict_df = test_df[:20].copy()
+
+pred_iter = model.predict(
+    lambda:easy_input_function(predict_df, label_key='income_bracket',
+                               num_epochs=1, shuffle=False, batch_size=10))
+
+classes = np.array(['<=50K', '>50K'])
+pred_class_id = []
+
+for pred_dict in pred_iter:
+  pred_class_id.append(pred_dict['class_ids'])
+
+predict_df['predicted_class'] = classes[np.array(pred_class_id)]
+predict_df['correct'] = predict_df['predicted_class'] == predict_df['income_bracket']
+
+clear_output()
+
+print(predict_df[['income_bracket','predicted_class', 'correct']])
 
 
 
