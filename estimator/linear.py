@@ -142,7 +142,11 @@ for key,value in sorted(result.items()):
   print('%s: %s' % (key, value))
 
 # Categorical columns
+relationship = fc.categorical_column_with_vocabulary_list(
+    'relationship',
+    ['Husband', 'Not-in-family', 'Wife', 'Own-child', 'Unmarried', 'Other-relative'])
 
+print(fc.input_layer(feature_batch, [age, fc.indicator_column(relationship)]))
 
 
 
