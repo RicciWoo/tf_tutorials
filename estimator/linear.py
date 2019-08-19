@@ -111,6 +111,15 @@ test_inpf = functools.partial(census_dataset.input_fn, test_file, num_epochs=1, 
 age = fc.numeric_column('age')
 print(fc.input_layer(feature_batch, [age]).numpy())
 
+# The following will train and evaluate a model using only the age feature:
+classifier = tf.estimator.LinearClassifier(feature_columns=[age])
+classifier.train(train_inpf)
+result = classifier.evaluate(test_inpf)
+
+clear_output()  # used for display in notebook
+print(result)
+
+
 
 
 
