@@ -138,7 +138,7 @@ result = classifier.evaluate(test_inpf)
 
 clear_output()
 
-for key,value in sorted(result.items()):
+for key, value in sorted(result.items()):
   print('%s: %s' % (key, value))
 
 # Categorical columns
@@ -185,7 +185,66 @@ result = classifier.evaluate(test_inpf)
 
 clear_output()
 
-for key,value in sorted(result.items()):
+for key, value in sorted(result.items()):
   print('%s: %s' % (key, value))
+
+# Derived feature columns
+# Make Continuous Features Categorical through Bucketization
+age_buckets = tf.feature_column.bucketized_column(
+    age, boundaries=[18, 25, 30, 35, 40, 45, 50, 55, 60, 65])
+
+print(fc.input_layer(feature_batch, [age, age_buckets]).numpy())
+
+# Learn complex relationships with crossed column
+education_x_occupation = tf.feature_column.crossed_column(
+    ['education', 'occupation'], hash_bucket_size=1000)
+
+age_buckets_x_education_x_occupation = tf.feature_column.crossed_column(
+    [age_buckets, 'education', 'occupation'], hash_bucket_size=1000)
+
+# Define the logistic regression model
+import tempfile
+
+base_columns = [
+    education, marital_status, relationship, workclass, occupation,
+    age_buckets,
+]
+
+crossed_columns = [
+    tf.feature_column.crossed_column(
+        ['education', 'occupation'], hash_bucket_size=1000),
+    tf.feature_column.crossed_column(
+        [age_buckets, 'education', 'occupation'], hash_bucket_size=1000),
+]
+
+model = tf.estimator.LinearClassifier(
+    model_dir=tempfile.mkdtemp(),
+    feature_columns=base_columns + crossed_columns,
+    optimizer=tf.train.FtrlOptimizer(learning_rate=0.1))
+
+# Train and evaluate the model
+train_inpf = functools.partial(census_dataset.input_fn, train_file,
+                               num_epochs=40, shuffle=True, batch_size=64)
+
+model.train(train_inpf)
+
+clear_output()  # used for notebook display
+
+results = model.evaluate(test_inpf)
+
+clear_output()
+
+for key, value in sorted(results.items()):
+  print('%s: %0.2f' % (key, value))
+
+
+
+
+
+
+
+
+
+
 
 
