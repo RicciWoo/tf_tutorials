@@ -148,8 +148,17 @@ relationship = fc.categorical_column_with_vocabulary_list(
 
 print(fc.input_layer(feature_batch, [age, fc.indicator_column(relationship)]))
 
+occupation = tf.feature_column.categorical_column_with_hash_bucket(
+    'occupation', hash_bucket_size=1000)
 
+for item in feature_batch['occupation'].numpy():
+    print(item.decode())
 
+occupation_result = fc.input_layer(feature_batch, [fc.indicator_column(occupation)])
+
+print(occupation_result.numpy().shape)
+
+print(tf.argmax(occupation_result, axis=1).numpy())
 
 
 
