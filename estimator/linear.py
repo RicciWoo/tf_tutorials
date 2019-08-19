@@ -127,7 +127,7 @@ hours_per_week = tf.feature_column.numeric_column('hours_per_week')
 
 my_numeric_columns = [age,education_num, capital_gain, capital_loss, hours_per_week]
 
-fc.input_layer(feature_batch, my_numeric_columns).numpy()
+print(fc.input_layer(feature_batch, my_numeric_columns).numpy())
 
 
 
