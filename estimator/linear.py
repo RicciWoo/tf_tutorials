@@ -129,7 +129,17 @@ my_numeric_columns = [age,education_num, capital_gain, capital_loss, hours_per_w
 
 print(fc.input_layer(feature_batch, my_numeric_columns).numpy())
 
+# retrain a model on these features by changing 
+# the feature_columns argument to the constructor:
+classifier = tf.estimator.LinearClassifier(feature_columns=my_numeric_columns)
+classifier.train(train_inpf)
 
+result = classifier.evaluate(test_inpf)
+
+clear_output()
+
+for key,value in sorted(result.items()):
+  print('%s: %s' % (key, value))
 
 
 
