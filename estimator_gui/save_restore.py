@@ -91,12 +91,38 @@ chkp.print_tensors_in_checkpoint_file("/tmp/model.ckpt", tensor_name='v2', all_t
 # [-1. -1. -1. -1. -1.]
 
 
+# Save and restore models
 
+# Build and load a SavedModel
 
+# Simple save
+# simple_save(session,
+#             export_dir,
+#             inputs={"x": x, "y": y},
+#             outputs={"z": z})
 
+# Manually build a SavedModel
+# export_dir = ...
+# ...
+# builder = tf.saved_model.builder.SavedModelBuilder(export_dir)
+# with tf.Session(graph=tf.Graph()) as sess:
+#   ...
+#   builder.add_meta_graph_and_variables(sess,
+#                                        [tag_constants.TRAINING],
+#                                        signature_def_map=foo_signatures,
+#                                        assets_collection=foo_assets,
+#                                        strip_default_attrs=True)
+# ...
+# # Add a second MetaGraphDef for inference.
+# with tf.Session(graph=tf.Graph()) as sess:
+#   ...
+#   builder.add_meta_graph([tag_constants.SERVING], strip_default_attrs=True)
+# ...
+# builder.save()
 
-
-
-
-
-
+# Loading a SavedModel in Python
+# export_dir = ...
+# ...
+# with tf.Session(graph=tf.Graph()) as sess:
+#   tf.saved_model.loader.load(sess, [tag_constants.TRAINING], export_dir)
+#   ...
