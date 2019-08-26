@@ -25,7 +25,7 @@ with tf.Session() as sess:
   inc_v1.op.run()
   dec_v2.op.run()
   # Save the variables to disk.
-  save_path = saver.save(sess, "/models/saver/model.ckpt")
+  save_path = saver.save(sess, "/models/model.ckpt")
   print("Model saved in path: %s" % save_path)
 
 # Restore variables
@@ -42,7 +42,7 @@ saver = tf.train.Saver()
 # do some work with the model.
 with tf.Session() as sess:
   # Restore variables from disk.
-  saver.restore(sess, "/models/saver/model.ckpt")
+  saver.restore(sess, "/models/model.ckpt")
   print("Model restored.")
   # Check the values of the variables
   print("v1 : %s" % v1.eval())
