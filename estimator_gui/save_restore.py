@@ -1,5 +1,9 @@
+import tensorflow as tf
+
 # Save and restore variables
+
 # Save variables
+
 # Create some variables.
 v1 = tf.get_variable("v1", shape=[3], initializer = tf.zeros_initializer)
 v2 = tf.get_variable("v2", shape=[5], initializer = tf.zeros_initializer)
